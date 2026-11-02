@@ -111,6 +111,20 @@ export default Plugin.define({
         return null;
       },
 
+      setPrompt: async (input) => {
+        const data = input as { id: string; sessionID?: string; text?: string };
+        const reminder = await store.get(data.id);
+        if (!reminder) return null;
+
+        await store.setPrompt(
+          data.id,
+          data.sessionID
+            ? { sessionID: data.sessionID, text: data.text?.trim() || reminder.title }
+            : undefined,
+        );
+        return null;
+      },
+
       settings: async () => ({ fallback: await fallbackEnabled() }),
 
       configure: async (input) => {

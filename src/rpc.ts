@@ -75,6 +75,19 @@ export const Reminders = Rpc.define({
     cancel: { input: idInput, output: voidOutput },
     remove: { input: idInput, output: voidOutput },
     ack: { input: idInput, output: voidOutput },
+    setPrompt: {
+      input: {
+        type: 'object',
+        properties: {
+          id: { type: 'string' },
+          sessionID: { type: 'string' },
+          text: { type: 'string' },
+        },
+        required: ['id'],
+        additionalProperties: false,
+      },
+      output: voidOutput,
+    },
     settings: { input: emptyInput, output: settingsOutput },
     configure: {
       input: {

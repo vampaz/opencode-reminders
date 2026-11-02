@@ -108,6 +108,20 @@ export const setup: Plugin.Setup<typeof definition> = (ctx) => {
     }
   }
 
+  async function setPrompt(id: string, enabled: boolean): Promise<void> {
+    const session = ctx.sessions.current();
+    if (enabled && !session) {
+      ctx.toast.show({ title: ctx.t('command.noSession'), variant: 'error' });
+      return;
+    }
+    try {
+      await client().setPrompt(enabled && session ? { id, sessionID: session.id } : { id });
+      await refresh();
+    } catch (error) {
+      fail(error);
+    }
+  }
+
   async function remove(id: string): Promise<void> {
     try {
       await client().remove({ id });
@@ -160,6 +174,7 @@ export const setup: Plugin.Setup<typeof definition> = (ctx) => {
     create,
     cancel,
     remove,
+    setPrompt,
     configure,
     open,
   };

@@ -112,6 +112,34 @@ describe('createReminderStore', () => {
     expect(await store.cancel(fired.id, new Date())).toBeUndefined();
   });
 
+  it('turns the agent follow-up on and off per reminder', async () => {
+    const storage = new MemoryStorage();
+    const store = createReminderStore(storage);
+    const reminder = reminderAt(1);
+    await store.put(reminder);
+
+    const enabled = await store.setPrompt(reminder.id, {
+      sessionID: 'ses_1',
+      text: 'Check the logs',
+    });
+    const disabled = await store.setPrompt(reminder.id, undefined);
+
+    expect(enabled?.prompt).toEqual({ sessionID: 'ses_1', text: 'Check the logs' });
+    expect(disabled?.prompt).toBeUndefined();
+  });
+
+  it('leaves the agent follow-up alone once a reminder fired', async () => {
+    const storage = new MemoryStorage();
+    const store = createReminderStore(storage);
+    const reminder = reminderAt(1);
+    await store.put(reminder);
+    await store.markFired(reminder.id, new Date('2026-11-01T12:01:00.000Z'));
+
+    expect(
+      await store.setPrompt(reminder.id, { sessionID: 'ses_1', text: 'late' }),
+    ).toBeUndefined();
+  });
+
   it('removes a reminder', async () => {
     const storage = new MemoryStorage();
     const store = createReminderStore(storage);

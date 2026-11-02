@@ -7,8 +7,8 @@ to the session that set them.
 ## Features
 
 - **Agent tools**: `reminder_create`, `reminder_list`, and `reminder_cancel`
-- **Agent follow-up**: a reminder can prompt the creating session when it is due, so the agent
-  continues the task instead of only notifying
+- **Agent follow-up**: each reminder carries its own mode. As agent work it is prompted into the
+  session when due, so the agent continues the task; as notify-only it just tells you
 - **Side panel**: upcoming and past reminders, with inline creation, cancel, and delete actions
 - **Palette and slash commands**: `Open reminders` (`mod+shift+r`) and `/remind 15m take a break`
 - **Titlebar pill**: shows when the next reminder is due
@@ -59,7 +59,9 @@ Open the panel from the side region's `+` menu, or press `Cmd+Shift+R` in a sess
 date (`2026-11-02`), and full ISO timestamps with a zone.
 
 Set `prompt: true` to have the agent continue in the session that created the reminder. The same
-option stores `prompt_text`, which defaults to the title.
+option stores `prompt_text`, which defaults to the title. The mode belongs to the reminder, not to
+the plugin: each row in the panel shows `Agent` or `Notify only`, and its button switches the mode
+after creation. Turning it on binds the reminder to the session that is mounted at that moment.
 
 ## Delivery
 

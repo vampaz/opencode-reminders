@@ -1,4 +1,4 @@
-import { byDueAt, isPending, type Reminder } from './reminder';
+import { byDueAt, isPending, type Reminder, type ReminderPrompt } from './reminder';
 
 /** The slice of `ctx.storage` this plugin needs, so tests can pass a fake. */
 export interface ReminderStorage {
@@ -30,6 +30,7 @@ export interface ReminderStore {
   markFired(id: string, at: Date): Promise<Reminder | undefined>;
   markDelivered(id: string, at: Date): Promise<Reminder | undefined>;
   cancel(id: string, at: Date): Promise<Reminder | undefined>;
+  setPrompt(id: string, prompt: ReminderPrompt | undefined): Promise<Reminder | undefined>;
 }
 
 export function createReminderStore(storage: ReminderStorage): ReminderStore {
@@ -107,6 +108,23 @@ export function createReminderStore(storage: ReminderStorage): ReminderStore {
       return patch(id, (reminder) => {
         if (!isPending(reminder)) return undefined;
         return { ...reminder, cancelledAt: at.toISOString() };
+      });
+    },
+
+    setPrompt(id, prompt) {
+      return patch(id, (reminder) => {
+        if (!isPending(reminder)) return undefined;
+        return {
+          id: reminder.id,
+          title: reminder.title,
+          ...(reminder.message ? { message: reminder.message } : {}),
+          dueAt: reminder.dueAt,
+          createdAt: reminder.createdAt,
+          ...(reminder.firedAt ? { firedAt: reminder.firedAt } : {}),
+          ...(reminder.deliveredAt ? { deliveredAt: reminder.deliveredAt } : {}),
+          ...(reminder.cancelledAt ? { cancelledAt: reminder.cancelledAt } : {}),
+          ...(prompt ? { prompt } : {}),
+        };
       });
     },
   };

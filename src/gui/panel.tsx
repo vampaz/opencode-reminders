@@ -130,11 +130,12 @@ function ReminderRow(props: { reminder: Reminder; ui: ReminderUi; past?: boolean
           >
             {props.reminder.title}
           </span>
-          <Show when={props.reminder.prompt}>
-            <span title={ctx.t('panel.prompt')} style={{ opacity: '0.6', 'font-size': '0.75rem' }}>
-              ●
-            </span>
-          </Show>
+          <span
+            title={ctx.t(reminderModeLabel(props.reminder))}
+            style={{ opacity: '0.6', 'font-size': '0.72rem', 'white-space': 'nowrap' }}
+          >
+            {ctx.t(reminderModeLabel(props.reminder))}
+          </span>
         </div>
         <span style={{ opacity: '0.65', 'font-size': '0.8rem' }}>{due()}</span>
         <Show when={props.reminder.message}>
@@ -151,12 +152,23 @@ function ReminderRow(props: { reminder: Reminder; ui: ReminderUi; past?: boolean
           />
         }
       >
-        <ctx.ui.IconButton
-          icon="trash"
-          label={ctx.t('panel.cancel')}
-          onClick={() => void props.ui.cancel(props.reminder.id)}
-        />
+        <div style={{ display: 'flex', gap: '2px' }}>
+          <ctx.ui.IconButton
+            icon={props.reminder.prompt ? 'circle-x' : 'prompt'}
+            label={ctx.t(props.reminder.prompt ? 'panel.stopAgent' : 'panel.askAgent')}
+            onClick={() => void props.ui.setPrompt(props.reminder.id, !props.reminder.prompt)}
+          />
+          <ctx.ui.IconButton
+            icon="trash"
+            label={ctx.t('panel.cancel')}
+            onClick={() => void props.ui.cancel(props.reminder.id)}
+          />
+        </div>
       </Show>
     </div>
   );
+}
+
+function reminderModeLabel(reminder: Reminder): 'panel.modeAgent' | 'panel.modeNotify' {
+  return reminder.prompt ? 'panel.modeAgent' : 'panel.modeNotify';
 }

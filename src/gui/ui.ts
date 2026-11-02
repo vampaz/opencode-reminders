@@ -17,6 +17,7 @@ export interface ReminderUi {
   }): Promise<boolean>;
   cancel(id: string): Promise<void>;
   remove(id: string): Promise<void>;
+  setPrompt(id: string, enabled: boolean): Promise<void>;
   configure(fallback: boolean): Promise<void>;
   open(): void;
 }
