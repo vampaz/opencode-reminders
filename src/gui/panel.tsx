@@ -45,15 +45,13 @@ export function RemindersPanel(props: { ui: ReminderUi }) {
           onSubmit={() => void submit()}
         />
         <div style={{ display: 'flex', gap: '8px', 'align-items': 'center' }}>
-          <div style={{ flex: '1' }}>
-            <ctx.ui.TextInput
-              label={ctx.t('panel.when')}
-              placeholder={ctx.t('panel.whenHint')}
-              value={when()}
-              onInput={setWhen}
-              onSubmit={() => void submit()}
-            />
-          </div>
+          <ctx.ui.TextInput
+            label={ctx.t('panel.when')}
+            placeholder={ctx.t('panel.whenHint')}
+            value={when()}
+            onInput={setWhen}
+            onSubmit={() => void submit()}
+          />
           <ctx.ui.Button
             variant="contrast"
             icon="plus"
@@ -64,12 +62,20 @@ export function RemindersPanel(props: { ui: ReminderUi }) {
           </ctx.ui.Button>
         </div>
         <Show when={ctx.sessions.current()}>
-          <ctx.ui.Switch
-            label={ctx.t('panel.prompt')}
-            description={ctx.t('panel.promptHint')}
-            checked={askAgent()}
-            onChange={setAskAgent}
-          />
+          <div style={{ display: 'flex', gap: '12px', 'align-items': 'flex-start' }}>
+            <div style={{ flex: '1' }}>
+              <div style={{ 'font-size': '0.85rem' }}>{ctx.t('panel.prompt')}</div>
+              <div style={{ 'font-size': '0.78rem', opacity: '0.65', 'line-height': '1.4' }}>
+                {ctx.t('panel.promptHint')}
+              </div>
+            </div>
+            <ctx.ui.Switch
+              label={ctx.t('panel.prompt')}
+              hideLabel
+              checked={askAgent()}
+              onChange={setAskAgent}
+            />
+          </div>
         </Show>
       </div>
 
