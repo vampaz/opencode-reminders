@@ -22,7 +22,9 @@ export const definition = Plugin.define({
       'panel.create': 'Add reminder',
       'panel.cancel': 'Cancel reminder',
       'panel.delete': 'Delete reminder',
-      'panel.prompt': 'Agent continues',
+      'panel.prompt': 'Ask the agent when due',
+      'panel.promptHint':
+        'At the due time the agent is prompted in this session with the reminder, so it continues the work instead of only notifying you.',
       'panel.createFailed': 'Could not add the reminder.',
       'panel.invalidWhen': 'Could not read that time.',
       'command.open': 'Open reminders',

@@ -66,6 +66,7 @@ export function RemindersPanel(props: { ui: ReminderUi }) {
         <Show when={ctx.sessions.current()}>
           <ctx.ui.Switch
             label={ctx.t('panel.prompt')}
+            description={ctx.t('panel.promptHint')}
             checked={askAgent()}
             onChange={setAskAgent}
           />
