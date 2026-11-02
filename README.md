@@ -58,6 +58,10 @@ Open the panel from the side region's `+` menu, or press `Cmd+Shift+R` in a sess
 `/remind` command also accept relative offsets (`15m`, `2h`, `3d`), a wall-clock time (`09:00`), a
 date (`2026-11-02`), and full ISO timestamps with a zone.
 
+The panel has one form and two buttons. **Remind me** creates a notify-only reminder; **Remind the
+agent** binds it to the mounted session, so the agent continues there when it is due. Each row shows
+its mode and can switch it later.
+
 Set `prompt: true` to have the agent continue in the session that created the reminder. The same
 option stores `prompt_text`, which defaults to the title. The mode belongs to the reminder, not to
 the plugin: each row in the panel shows `Agent` or `Notify only`, and its button switches the mode
